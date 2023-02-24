@@ -35,7 +35,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
     private ActivityLoginBinding binding;
-
     private static final String TAG = "LoginActivity";
 
     @Override
