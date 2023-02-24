@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -31,6 +32,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
     private ActivityLoginBinding binding;
+
+    private static final String TAG = "LoginActivity";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -124,6 +127,17 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.i(TAG, "Activity Paused!");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i(TAG, "Activity Resumed!");
+    }
     private void updateUiWithUser(LoggedInUserView model) {
         String welcome = getString(R.string.welcome) + model.getDisplayName();
         // TODO : initiate successful logged in experience
