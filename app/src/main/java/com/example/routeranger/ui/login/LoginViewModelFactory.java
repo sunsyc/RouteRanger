@@ -1,11 +1,11 @@
-package com.example.routeranger.ui.viewmodel;
+package com.example.routeranger.ui.login;
 
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.annotation.NonNull;
 
-import com.example.routeranger.model.LoginDataSource;
-import com.example.routeranger.model.LoginRepository;
+import com.example.routeranger.data.LoginDataSource;
+import com.example.routeranger.data.LoginRepository;
 
 /**
  * ViewModel provider factory to instantiate LoginViewModel.

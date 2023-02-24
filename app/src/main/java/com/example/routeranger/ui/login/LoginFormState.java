@@ -1,11 +1,11 @@
-package com.example.routeranger.ui.viewmodel;
+package com.example.routeranger.ui.login;
 
 import androidx.annotation.Nullable;
 
 /**
  * Data validation state of the login form.
  */
-public class LoginFormState {
+class LoginFormState {
     @Nullable
     private Integer usernameError;
     @Nullable
@@ -25,16 +25,16 @@ public class LoginFormState {
     }
 
     @Nullable
-    public Integer getUsernameError() {
+    Integer getUsernameError() {
         return usernameError;
     }
 
     @Nullable
-    public Integer getPasswordError() {
+    Integer getPasswordError() {
         return passwordError;
     }
 
-    public boolean isDataValid() {
+    boolean isDataValid() {
         return isDataValid;
     }
 }

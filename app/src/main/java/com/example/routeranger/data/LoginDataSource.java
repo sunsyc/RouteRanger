@@ -1,4 +1,6 @@
-package com.example.routeranger.model;
+package com.example.routeranger.data;
+
+import com.example.routeranger.data.model.LoggedInUser;
 
 import java.io.IOException;
 
