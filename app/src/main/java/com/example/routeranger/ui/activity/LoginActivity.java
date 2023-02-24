@@ -1,4 +1,4 @@
-package com.example.routeranger.ui.login;
+package com.example.routeranger.ui.activity;
 
 import android.app.Activity;
 
@@ -24,9 +24,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.routeranger.R;
-import com.example.routeranger.ui.login.LoginViewModel;
-import com.example.routeranger.ui.login.LoginViewModelFactory;
 import com.example.routeranger.databinding.ActivityLoginBinding;
+import com.example.routeranger.ui.viewmodel.LoggedInUserView;
+import com.example.routeranger.ui.viewmodel.LoginFormState;
+import com.example.routeranger.ui.viewmodel.LoginResult;
+import com.example.routeranger.ui.viewmodel.LoginViewModel;
+import com.example.routeranger.ui.viewmodel.LoginViewModelFactory;
 
 public class LoginActivity extends AppCompatActivity {
 

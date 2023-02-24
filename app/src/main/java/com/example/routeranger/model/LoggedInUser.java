@@ -1,4 +1,4 @@
-package com.example.routeranger.data.model;
+package com.example.routeranger.model;
 
 /**
  * Data class that captures user information for logged in users retrieved from LoginRepository

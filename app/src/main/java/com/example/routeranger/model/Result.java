@@ -1,4 +1,4 @@
-package com.example.routeranger.data;
+package com.example.routeranger.model;
 
 /**
  * A generic class that holds a result success w/ data or an error exception.

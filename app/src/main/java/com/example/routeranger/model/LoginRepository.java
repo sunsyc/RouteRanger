@@ -1,6 +1,4 @@
-package com.example.routeranger.data;
-
-import com.example.routeranger.data.model.LoggedInUser;
+package com.example.routeranger.model;
 
 /**
  * Class that requests authentication and user information from the remote data source and
