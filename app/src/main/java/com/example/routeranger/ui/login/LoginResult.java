@@ -1,13 +1,11 @@
-package com.example.routeranger.ui.viewmodel;
+package com.example.routeranger.ui.login;
 
 import androidx.annotation.Nullable;
-
-import com.example.routeranger.ui.viewmodel.LoggedInUserView;
 
 /**
  * Authentication result : success (user details) or error message.
  */
-public class LoginResult {
+class LoginResult {
     @Nullable
     private LoggedInUserView success;
     @Nullable
@@ -22,12 +20,12 @@ public class LoginResult {
     }
 
     @Nullable
-    public LoggedInUserView getSuccess() {
+    LoggedInUserView getSuccess() {
         return success;
     }
 
     @Nullable
-    public Integer getError() {
+    Integer getError() {
         return error;
     }
 }
