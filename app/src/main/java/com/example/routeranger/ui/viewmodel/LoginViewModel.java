@@ -1,4 +1,4 @@
-package com.example.routeranger.ui.login;
+package com.example.routeranger.ui.viewmodel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModel;
 
 import android.util.Patterns;
 
-import com.example.routeranger.data.LoginRepository;
-import com.example.routeranger.data.Result;
-import com.example.routeranger.data.model.LoggedInUser;
+import com.example.routeranger.model.LoginRepository;
+import com.example.routeranger.model.Result;
+import com.example.routeranger.model.LoggedInUser;
 import com.example.routeranger.R;
 
 public class LoginViewModel extends ViewModel {
@@ -21,11 +21,11 @@ public class LoginViewModel extends ViewModel {
         this.loginRepository = loginRepository;
     }
 
-    LiveData<LoginFormState> getLoginFormState() {
+    public LiveData<LoginFormState> getLoginFormState() {
         return loginFormState;
     }
 
-    LiveData<LoginResult> getLoginResult() {
+    public LiveData<LoginResult> getLoginResult() {
         return loginResult;
     }
 
