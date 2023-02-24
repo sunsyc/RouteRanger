@@ -39,14 +39,13 @@ public class LoginFragment extends Fragment {
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-        Log.i(TAG, "Fragment Created!");
         Activity activity = requireActivity();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v;
-        Log.i(TAG, "Creating Fragment View...");
+        Log.i(TAG, "Calling onCreateView()");
         Activity activity = requireActivity();
 
         v = inflater.inflate(R.layout.fragment_login, container, false);
@@ -135,8 +134,6 @@ public class LoginFragment extends Fragment {
             }
         });
 
-
-        Log.i(TAG, "Fragment View Created!");
         return v;
     }
 

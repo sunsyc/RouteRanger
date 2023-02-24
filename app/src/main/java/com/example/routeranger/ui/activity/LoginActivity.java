@@ -47,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        Log.i(TAG, "Calling onCreate()");
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.container);
@@ -58,18 +59,17 @@ public class LoginActivity extends AppCompatActivity {
                     .commit();
         }
 
-        Log.i(TAG, "Activity Created!");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Log.i(TAG, "Activity Paused!");
+        Log.i(TAG, "Calling onPause()");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.i(TAG, "Activity Resumed!");
+        Log.i(TAG, "Calling onResume()");
     }
 }
