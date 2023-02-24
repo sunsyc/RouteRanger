@@ -125,6 +125,8 @@ public class LoginActivity extends AppCompatActivity {
                         passwordEditText.getText().toString());
             }
         });
+
+        Log.i(TAG, "Activity Created!");
     }
 
     @Override
