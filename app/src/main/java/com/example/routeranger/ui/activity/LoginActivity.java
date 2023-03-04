@@ -60,7 +60,6 @@ public class LoginActivity extends AppCompatActivity {
         }
 
     }
-
     @Override
     public void onPause() {
         super.onPause();
@@ -71,5 +70,17 @@ public class LoginActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         Log.i(TAG, "Calling onResume()");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG, "Calling onDestroy()");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.i(TAG, "Calling onStop()");
     }
 }
