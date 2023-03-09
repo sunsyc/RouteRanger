@@ -13,7 +13,7 @@ public interface UserDao {
     @Query("SELECT * FROM user")
     List<User> getAll();
 
-    @Query("SELECT * FROM user WHERE uid IN (:userIds)")
+    @Query("SELECT * FROM user WHERE userId IN (:userIds)")
     List<User> loadAllByIds(int[] userIds);
 
     @Query("SELECT * FROM user WHERE first_name LIKE :first AND " +
@@ -30,6 +30,6 @@ public interface UserDao {
     void delete(User user);
 
     @Transaction
-    @Query("SELECT * FROM route")
-    public List<UsersWithRoutes> getUsersWithRoutes();
+    @Query("SELECT * FROM user")
+    public List<UserWithRoutes> getUsersWithRoutes();
 }

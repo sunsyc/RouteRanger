@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey;
 @Entity
 public class Route {
     @PrimaryKey
+    @ColumnInfo(name = "routeId")
     public int uid;
 
     @ColumnInfo(name = "name")

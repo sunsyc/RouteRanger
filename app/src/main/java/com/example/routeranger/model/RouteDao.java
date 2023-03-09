@@ -12,7 +12,7 @@ public interface RouteDao {
     @Query("SELECT * FROM route")
     List<Route> getAll();
 
-    @Query("SELECT * FROM route WHERE uid IN (:routeIds)")
+    @Query("SELECT * FROM route WHERE routeId IN (:routeIds)")
     List<Route> loadAllByIds(int[] routeIds);
 
     @Query("SELECT * FROM route WHERE name LIKE :name")
