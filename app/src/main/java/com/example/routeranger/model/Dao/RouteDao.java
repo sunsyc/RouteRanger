@@ -1,9 +1,11 @@
-package com.example.routeranger.model;
+package com.example.routeranger.model.Dao;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+
+import com.example.routeranger.model.Route;
 
 import java.util.List;
 

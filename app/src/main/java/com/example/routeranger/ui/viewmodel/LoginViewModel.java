@@ -6,19 +6,19 @@ import androidx.lifecycle.ViewModel;
 
 import android.util.Patterns;
 
-import com.example.routeranger.model.LoginRepository;
-import com.example.routeranger.model.Result;
-import com.example.routeranger.model.LoggedInUser;
+import com.example.routeranger.model.AppDatabase;
 import com.example.routeranger.R;
+import com.example.routeranger.model.User;
+import com.example.routeranger.model.Dao.UserDao;
 
 public class LoginViewModel extends ViewModel {
 
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
     private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
-    private LoginRepository loginRepository;
+    private AppDatabase db;
 
-    LoginViewModel(LoginRepository loginRepository) {
-        this.loginRepository = loginRepository;
+    LoginViewModel(AppDatabase appDatabase) {
+        this.db = appDatabase;
     }
 
     public LiveData<LoginFormState> getLoginFormState() {
@@ -30,15 +30,27 @@ public class LoginViewModel extends ViewModel {
     }
 
     public void login(String username, String password) {
-        // can be launched in a separate asynchronous job
-        Result<LoggedInUser> result = loginRepository.login(username, password);
 
-        if (result instanceof Result.Success) {
-            LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();
-            loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName())));
+        UserDao userDao = db.userDao();
+        User user = userDao.findByCredentials(username, password);
+
+        if (user == null) {
+            userDao.insertAll(new User());
+            userDao.updateUser(new User());
         } else {
-            loginResult.setValue(new LoginResult(R.string.login_failed));
+            userDao.delete(user);
         }
+        loginResult.setValue(new LoginResult(new LoggedInUserView(user.username + user.password)));
+
+        // can be launched in a separate asynchronous job
+//        Result<LoggedInUser> result = loginRepository.login(username, password);
+//
+//        if (result instanceof Result.Success) {
+//            LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();
+//            loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName())));
+//        } else {
+//            loginResult.setValue(new LoginResult(R.string.login_failed));
+//        }
     }
 
     public void loginDataChanged(String username, String password) {

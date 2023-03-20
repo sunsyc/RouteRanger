@@ -50,7 +50,7 @@ public class LoginFragment extends Fragment {
 
         v = inflater.inflate(R.layout.fragment_login, container, false);
 
-        loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
+        loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory(activity.getApplicationContext()))
                 .get(LoginViewModel.class);
 
         final EditText usernameEditText = v.findViewById(R.id.username);
