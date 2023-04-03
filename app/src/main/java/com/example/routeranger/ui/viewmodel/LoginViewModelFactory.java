@@ -27,7 +27,9 @@ public class LoginViewModelFactory implements ViewModelProvider.Factory {
     @SuppressWarnings("unchecked")
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         if (modelClass.isAssignableFrom(LoginViewModel.class)) {
-            return (T) new LoginViewModel(Room.databaseBuilder(mContext, AppDatabase.class, "db").build());
+            return (T) new LoginViewModel(Room.databaseBuilder(mContext, AppDatabase.class, "db")
+                    .fallbackToDestructiveMigration()
+                    .build());
         } else {
             throw new IllegalArgumentException("Unknown ViewModel class");
         }

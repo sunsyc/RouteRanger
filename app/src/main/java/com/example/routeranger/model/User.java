@@ -6,15 +6,20 @@ import androidx.room.PrimaryKey;
 
 @Entity
 public class User {
-    @PrimaryKey
+
+    public User(String username, String password) {
+        mUsername = username;
+        mPassword = password;
+    }
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "userId")
     public int uid;
 
     @ColumnInfo(name = "username")
-    public String username;
+    public String mUsername;
 
     @ColumnInfo(name = "password")
-    public String password;
+    public String mPassword;
 
     // may change to a geolocation or separated into distinct parts of an address
     @ColumnInfo(name = "location")

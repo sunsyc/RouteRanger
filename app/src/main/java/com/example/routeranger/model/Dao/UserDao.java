@@ -1,8 +1,10 @@
 package com.example.routeranger.model.Dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
 import androidx.room.Update;
@@ -22,7 +24,7 @@ public interface UserDao {
 
     @Query("SELECT * FROM user WHERE username LIKE :first AND " +
             "password LIKE :last LIMIT 1")
-    User findByCredentials(String first, String last);
+    LiveData<User> findByCredentials(String first, String last);
 
     @Query("SELECT * FROM user WHERE location LIKE :location")
     User findByLocation(String location);
@@ -30,7 +32,7 @@ public interface UserDao {
     @Update
     void updateUser(User user);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.ABORT)
     void insertAll(User... users);
 
     @Delete

@@ -32,15 +32,14 @@ public class LoginViewModel extends ViewModel {
     public void login(String username, String password) {
 
         UserDao userDao = db.userDao();
-        User user = userDao.findByCredentials(username, password);
+        User user = userDao.findByCredentials(username, password).getValue();
 
         if (user == null) {
-            userDao.insertAll(new User());
-            userDao.updateUser(new User());
-        } else {
-            userDao.delete(user);
+            user = new User(username, password);
+            User finalUser = user;
+            db.dbWriteExecutor.execute(() -> userDao.insertAll(finalUser));
         }
-        loginResult.setValue(new LoginResult(new LoggedInUserView(user.username + user.password)));
+        loginResult.setValue(new LoginResult(new LoggedInUserView(user.mUsername + user.mPassword)));
 
         // can be launched in a separate asynchronous job
 //        Result<LoggedInUser> result = loginRepository.login(username, password);
