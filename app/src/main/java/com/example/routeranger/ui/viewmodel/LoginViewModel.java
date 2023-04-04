@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import android.util.Log;
 import android.util.Patterns;
 
 import com.example.routeranger.model.AppDatabase;
@@ -16,6 +17,8 @@ public class LoginViewModel extends ViewModel {
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
     private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
     private AppDatabase db;
+
+    private static final String TAG = "LoginViewModel";
 
     LoginViewModel(AppDatabase appDatabase) {
         this.db = appDatabase;
@@ -32,14 +35,32 @@ public class LoginViewModel extends ViewModel {
     public void login(String username, String password) {
 
         UserDao userDao = db.userDao();
-        User user = userDao.findByCredentials(username, password).getValue();
+        //User user = userDao.findByCredentials(username, password).getValue();
 
-        if (user == null) {
-            user = new User(username, password);
-            User finalUser = user;
-            db.dbWriteExecutor.execute(() -> userDao.insertAll(finalUser));
-        }
-        loginResult.setValue(new LoginResult(new LoggedInUserView(user.mUsername + user.mPassword)));
+        userDao.findByCredentials(username, password).observeForever(user -> {
+            if (user == null) {
+                user = new User(username, password);
+                User finalUser = user;
+                db.dbWriteExecutor.execute(() -> userDao.insertAll(finalUser));
+                Log.i(TAG, "New User Created!");
+            } else {
+                Log.i(TAG, "User already exists!");
+            }
+            loginResult.setValue(new LoginResult(new LoggedInUserView(user.mUsername + user.mPassword)));
+            Log.i(TAG, "User logged in!");
+        });
+
+//        if (user == null) {
+//            user = new User(username, password);
+//            User finalUser = user;
+//            db.dbWriteExecutor.execute(() -> userDao.insertAll(finalUser));
+//            Log.i(TAG, "New User Created!");
+//        } else {
+//            Log.i(TAG, "User already exists!");
+//        }
+//        loginResult.setValue(new LoginResult(new LoggedInUserView(user.mUsername + user.mPassword)));
+//        Log.i(TAG, "User logged in!");
+
 
         // can be launched in a separate asynchronous job
 //        Result<LoggedInUser> result = loginRepository.login(username, password);
@@ -77,5 +98,11 @@ public class LoginViewModel extends ViewModel {
     // A placeholder password validation check
     private boolean isPasswordValid(String password) {
         return password != null && password.trim().length() > 5;
+    }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+
     }
 }

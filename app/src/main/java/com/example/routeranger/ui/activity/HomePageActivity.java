@@ -25,6 +25,7 @@ public class HomePageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Handle the login button click here
+                switchToLogin();
             }
         });
 
@@ -45,5 +46,10 @@ public class HomePageActivity extends AppCompatActivity {
                 // Handle the skip button click here
             }
         });
+    }
+
+    private void switchToLogin() {
+        Intent switchActivityIntent = new Intent(this, LoginActivity.class);
+        startActivity(switchActivityIntent);
     }
 }

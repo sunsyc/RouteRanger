@@ -32,7 +32,7 @@ public interface UserDao {
     @Update
     void updateUser(User user);
 
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert()
     void insertAll(User... users);
 
     @Delete
