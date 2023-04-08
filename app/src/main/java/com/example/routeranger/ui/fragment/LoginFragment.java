@@ -1,11 +1,11 @@
 package com.example.routeranger.ui.fragment;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,23 +13,18 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.routeranger.R;
-import com.example.routeranger.databinding.ActivityLoginBinding;
+import com.example.routeranger.ui.activity.NewRouteActivity;
 import com.example.routeranger.ui.viewmodel.LoggedInUserView;
-import com.example.routeranger.ui.viewmodel.LoginFormState;
-import com.example.routeranger.ui.viewmodel.LoginResult;
 import com.example.routeranger.ui.viewmodel.LoginViewModel;
-import com.example.routeranger.ui.viewmodel.LoginViewModelFactory;
+import com.example.routeranger.ui.viewmodel.ViewModelFactory;
 
 public class LoginFragment extends Fragment {
 
@@ -50,7 +45,7 @@ public class LoginFragment extends Fragment {
 
         v = inflater.inflate(R.layout.fragment_login, container, false);
 
-        loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory(activity.getApplicationContext()))
+        loginViewModel = new ViewModelProvider(this, new ViewModelFactory(activity.getApplicationContext()))
                 .get(LoginViewModel.class);
 
         final EditText usernameEditText = v.findViewById(R.id.username);
@@ -119,6 +114,8 @@ public class LoginFragment extends Fragment {
             loadingProgressBar.setVisibility(View.VISIBLE);
             loginViewModel.login(usernameEditText.getText().toString(),
                     passwordEditText.getText().toString());
+            switchToNewRoute();
+
         });
 
         return v;
@@ -132,5 +129,10 @@ public class LoginFragment extends Fragment {
 
     private void showLoginFailed(@StringRes Integer errorString, Activity activity) {
         Toast.makeText(activity.getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
+    }
+
+    private void switchToNewRoute() {
+        Intent switchActivityIntent = new Intent(getActivity(), NewRouteActivity.class);
+        startActivity(switchActivityIntent);
     }
 }

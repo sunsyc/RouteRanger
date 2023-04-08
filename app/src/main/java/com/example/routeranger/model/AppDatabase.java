@@ -14,6 +14,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract UserDao userDao();
     public abstract RouteDao routeDao();
 
+    public int loggedInUserId;
     private static final int sNumberOfThreads = 2;
     public final ExecutorService dbWriteExecutor = Executors.newFixedThreadPool(sNumberOfThreads);
 }

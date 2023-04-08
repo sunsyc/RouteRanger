@@ -8,18 +8,16 @@ import androidx.annotation.NonNull;
 import androidx.room.Room;
 
 import com.example.routeranger.model.AppDatabase;
-import com.example.routeranger.model.LoginDataSource;
-import com.example.routeranger.model.LoginRepository;
 
 /**
  * ViewModel provider factory to instantiate LoginViewModel.
  * Required given LoginViewModel has a non-empty constructor
  */
-public class LoginViewModelFactory implements ViewModelProvider.Factory {
+public class ViewModelFactory implements ViewModelProvider.Factory {
 
     Context mContext;
 
-    public LoginViewModelFactory(Context context) {
+    public ViewModelFactory(Context context) {
         mContext = context;
     }
     @NonNull
@@ -30,7 +28,12 @@ public class LoginViewModelFactory implements ViewModelProvider.Factory {
             return (T) new LoginViewModel(Room.databaseBuilder(mContext, AppDatabase.class, "db")
                     .fallbackToDestructiveMigration()
                     .build());
-        } else {
+        } else if (modelClass.isAssignableFrom(SettingsViewModel.class)) {
+            return (T) new SettingsViewModel(Room.databaseBuilder(mContext, AppDatabase.class, "db")
+                    .fallbackToDestructiveMigration()
+                    .build());
+        }
+        else {
             throw new IllegalArgumentException("Unknown ViewModel class");
         }
     }

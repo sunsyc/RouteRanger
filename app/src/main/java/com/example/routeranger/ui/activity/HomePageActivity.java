@@ -48,7 +48,6 @@ public class HomePageActivity extends AppCompatActivity {
             }
         });
     }
-
     private void switchToLogin() {
         Intent switchActivityIntent = new Intent(this, LoginActivity.class);
         startActivity(switchActivityIntent);

@@ -47,6 +47,7 @@ public class LoginViewModel extends ViewModel {
                 Log.i(TAG, "User already exists!");
             }
             loginResult.setValue(new LoginResult(new LoggedInUserView(user.mUsername + user.mPassword)));
+            db.loggedInUserId = user.uid;
             Log.i(TAG, "User logged in!");
         });
 
