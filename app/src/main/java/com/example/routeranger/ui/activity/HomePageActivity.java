@@ -43,7 +43,8 @@ public class HomePageActivity extends AppCompatActivity {
         skipButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle the skip button click here
+                Intent intent = new Intent(HomePageActivity.this, NewRouteActivity.class);
+                startActivity(intent);
             }
         });
     }
