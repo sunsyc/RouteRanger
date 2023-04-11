@@ -11,6 +11,7 @@ import androidx.room.Update;
 
 import com.example.routeranger.model.User;
 import com.example.routeranger.model.UserWithRoutes;
+import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.List;
 
@@ -23,20 +24,20 @@ public interface UserDao {
     List<User> getAll();
 
     @Query("SELECT * FROM user WHERE userId IN (:userId) LIMIT 1")
-    Single<User> findById(int userId);
+    ListenableFuture<User> findById(int userId);
 
     @Query("SELECT * FROM user WHERE username LIKE :first AND " +
             "password LIKE :last LIMIT 1")
-    Single<User> findByCredentials(String first, String last);
+    ListenableFuture<User> findByCredentials(String first, String last);
 
     @Query("SELECT * FROM user WHERE location LIKE :location")
     User findByLocation(String location);
 
     @Update
-    Completable updateUser(User user);
+    ListenableFuture<Integer> updateUser(User user);
 
     @Insert()
-    Completable insertAll(User... users);
+    ListenableFuture<Long> insert(User user);
 
     @Delete
     void delete(User user);

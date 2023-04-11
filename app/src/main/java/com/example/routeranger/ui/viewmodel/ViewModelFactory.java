@@ -25,14 +25,9 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
     @SuppressWarnings("unchecked")
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         if (modelClass.isAssignableFrom(LoginViewModel.class)) {
-            return (T) new LoginViewModel(Room.databaseBuilder(mContext, AppDatabase.class, "db")
-                    .fallbackToDestructiveMigration()
-                    .build());
+            return (T) new LoginViewModel(AppDatabase.getInstance(mContext));
         } else if (modelClass.isAssignableFrom(SettingsViewModel.class)) {
-            return (T) new SettingsViewModel(Room.databaseBuilder(mContext, AppDatabase.class, "db")
-                    .fallbackToDestructiveMigration()
-                    .enableMultiInstanceInvalidation()
-                    .build());
+            return (T) new SettingsViewModel(AppDatabase.getInstance(mContext));
         }
         else {
             throw new IllegalArgumentException("Unknown ViewModel class");
