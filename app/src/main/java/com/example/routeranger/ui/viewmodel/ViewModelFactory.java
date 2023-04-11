@@ -31,6 +31,7 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
         } else if (modelClass.isAssignableFrom(SettingsViewModel.class)) {
             return (T) new SettingsViewModel(Room.databaseBuilder(mContext, AppDatabase.class, "db")
                     .fallbackToDestructiveMigration()
+                    .enableMultiInstanceInvalidation()
                     .build());
         }
         else {
