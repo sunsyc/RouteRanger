@@ -1,17 +1,26 @@
 package com.example.routeranger.ui.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.routeranger.R;
 
 public class NewRouteActivity extends AppCompatActivity {
 
     private Button settingsButton;
+    private String startDestination;
+    private String endDestination;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +33,7 @@ public class NewRouteActivity extends AppCompatActivity {
         final Button generateRoutesButton = findViewById(R.id.generateRoutesButton);
         final Button backButton = findViewById(R.id.newroute_back_button);
 
+
         routeNameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -34,16 +44,21 @@ public class NewRouteActivity extends AppCompatActivity {
         startDestinationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle startDestinationButton click here
+                showInputDialog("Enter Start Destination", (dialog, which) -> {
+                    startDestination = ((EditText)((AlertDialog)dialog).findViewById(R.id.input_dialog_text)).getText().toString();
+                });
             }
         });
 
         endDestinationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle endDestinationButton click here
+                showInputDialog("Enter End Destination", (dialog, which) -> {
+                    endDestination = ((EditText)((AlertDialog)dialog).findViewById(R.id.input_dialog_text)).getText().toString();
+                });
             }
         });
+
 
         desiredLengthTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,9 +70,18 @@ public class NewRouteActivity extends AppCompatActivity {
         generateRoutesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle generateRoutesButton click here
+                if (startDestination != null && !startDestination.isEmpty() &&
+                        endDestination != null && !endDestination.isEmpty()) {
+                    Intent intent = new Intent(NewRouteActivity.this, MapActivity.class);
+                    intent.putExtra("startDestination", startDestination);
+                    intent.putExtra("endDestination", endDestination);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(NewRouteActivity.this, "Please enter both start and end destinations.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
+
         settingsButton = findViewById(R.id.settings_button);
 
         settingsButton.setOnClickListener(new View.OnClickListener() {
@@ -74,5 +98,22 @@ public class NewRouteActivity extends AppCompatActivity {
         Intent switchActivityIntent = new Intent(this, SettingsActivity.class);
         startActivity(switchActivityIntent);
     }
+
+    private void showInputDialog(String title, DialogInterface.OnClickListener listener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title);
+
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setId(R.id.input_dialog_text);
+        builder.setView(input);
+
+        builder.setPositiveButton("OK", listener);
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+
+        builder.show();
+    }
+
+
 }
 

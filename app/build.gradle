@@ -57,4 +57,15 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
 
+    //Add the Google Maps SDK dependency
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    implementation 'com.google.maps:google-maps-services:0.14.0'
+    implementation 'org.slf4j:slf4j-simple:1.7.30'
+
+    implementation 'com.google.maps.android:android-maps-utils:0.5+'
+    implementation 'com.google.maps.android:maps-utils-ktx:3.4.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
+
+
+
 }
