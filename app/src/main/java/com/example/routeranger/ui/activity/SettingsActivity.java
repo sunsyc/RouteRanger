@@ -28,10 +28,10 @@ public class SettingsActivity extends AppCompatActivity {
         settingsViewModel = new ViewModelProvider(this, new ViewModelFactory(getApplicationContext()))
                 .get(SettingsViewModel.class);
 
-//        settingsViewModel.populateFields();
-//        usernameEditText.setText(settingsViewModel.initName);
-//        passwordEditText.setText(settingsViewModel.initPass);
-//        locationEditText.setText(settingsViewModel.initLoc);
+        settingsViewModel.populateFields();
+        usernameEditText.setText(settingsViewModel.initName);
+        passwordEditText.setText(settingsViewModel.initPass);
+        locationEditText.setText(settingsViewModel.initLoc);
 
         updateSettingsButton.setOnClickListener((view -> settingsViewModel.updateSettings(usernameEditText.getText().toString(),
                 passwordEditText.getText().toString(),

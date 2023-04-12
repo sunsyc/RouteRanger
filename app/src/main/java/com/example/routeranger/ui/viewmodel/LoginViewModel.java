@@ -11,6 +11,15 @@ import com.example.routeranger.model.AppDatabase;
 import com.example.routeranger.R;
 import com.example.routeranger.model.User;
 import com.example.routeranger.model.Dao.UserDao;
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.observers.DisposableCompletableObserver;
+import io.reactivex.rxjava3.observers.DisposableSingleObserver;
 
 public class LoginViewModel extends ViewModel {
 
@@ -35,46 +44,90 @@ public class LoginViewModel extends ViewModel {
     public void login(String username, String password) {
 
         UserDao userDao = db.userDao();
-        //User user = userDao.findByCredentials(username, password).getValue();
 
-        userDao.findByCredentials(username, password).observeForever(user -> {
-            if (user == null) {
-                user = new User(username, password);
-                User finalUser = user;
-                db.dbWriteExecutor.execute(() -> userDao.insertAll(finalUser));
-                Log.i(TAG, "New User Created!");
-            } else {
-                Log.i(TAG, "User already exists!");
-            }
-            loginResult.setValue(new LoginResult(new LoggedInUserView(user.mUsername + user.mPassword)));
-            db.loggedInUserId = user.uid;
-            Log.i(TAG, "User logged in!");
-        });
+        ListenableFuture<User> future = userDao.findByCredentials(username, password);
+        Futures.addCallback(
+                future,
+                new FutureCallback<User>() {
+                    @Override
+                    public void onSuccess(User result) {
+                        if (result != null) {
+                            db.loggedInUserId = result.uid;
+                            Log.i(TAG, "User " + result.mUsername + " is logging in!");
+                        } else {
+                            User newUser = new User(username, password);
+                            Log.i(TAG, "User " + newUser.mUsername + " is being created!");
+                            ListenableFuture<Long> future1 = userDao.insert(newUser);
+                            Futures.addCallback(
+                                    future1,
+                                    new FutureCallback<Long>() {
+                                        @Override
+                                        public void onSuccess(Long result) {
+                                            db.loggedInUserId = newUser.uid;
+                                            Log.i(TAG, "User " + newUser.mUsername + " is in the database!");
+                                        }
 
-//        if (user == null) {
-//            user = new User(username, password);
-//            User finalUser = user;
-//            db.dbWriteExecutor.execute(() -> userDao.insertAll(finalUser));
-//            Log.i(TAG, "New User Created!");
-//        } else {
-//            Log.i(TAG, "User already exists!");
-//        }
-//        loginResult.setValue(new LoginResult(new LoggedInUserView(user.mUsername + user.mPassword)));
-//        Log.i(TAG, "User logged in!");
+                                        @Override
+                                        public void onFailure(Throwable t) {
+                                            t.printStackTrace();
+                                        }
+                                    }, db.dbWriteExecutor
+                            );
+                        }
+                    }
 
-
-        // can be launched in a separate asynchronous job
-//        Result<LoggedInUser> result = loginRepository.login(username, password);
-//
-//        if (result instanceof Result.Success) {
-//            LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();
-//            loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName())));
-//        } else {
-//            loginResult.setValue(new LoginResult(R.string.login_failed));
-//        }
+                    @Override
+                    public void onFailure(Throwable t) {
+                        t.printStackTrace();
+                    }
+                }, db.dbWriteExecutor
+        );
+        loginResult.setValue(new LoginResult(new LoggedInUserView(username + password)));
     }
 
-    public void loginDataChanged(String username, String password) {
+
+//        Disposable d = userDao.findByCredentials(username, password)
+//                .subscribeWith(new DisposableSingleObserver<User>() {
+//
+//           @Override
+//           public void onError(Throwable e) {
+//               e.printStackTrace();
+//           }
+//
+//           @Override
+//           public void onSuccess(User user) {
+//               if (user == null) {
+//                   User newUser = new User(username, password);
+//                   Disposable d1 = userDao.insertAll(newUser)
+//                           .subscribeWith(new DisposableCompletableObserver() {
+//
+//                       @Override
+//                       public void onError(Throwable e) {
+//                           e.printStackTrace();
+//                       }
+//
+//                       @Override
+//                       public void onStart() {
+//                            Log.i(TAG, "User " + newUser.mUsername + " is being created...");
+//                       }
+//
+//                       @Override
+//                       public void onComplete() {
+//                            db.loggedInUserId = newUser.uid;
+//                            Log.i(TAG, "User " + newUser.mUsername + " is logged in!");
+//                       }
+//                   });
+//               } else {
+//                   Log.i(TAG, "User " + user.mUsername + " already exists!");
+//                   db.loggedInUserId = user.uid;
+//                   Log.i(TAG, "User " + user.mUsername + " is logged in!");
+//               }
+//           }
+//        });
+//    }
+
+
+        public void loginDataChanged(String username, String password) {
         if (!isUserNameValid(username)) {
             loginFormState.setValue(new LoginFormState(R.string.invalid_username, null));
         } else if (!isPasswordValid(password)) {
