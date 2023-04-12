@@ -17,11 +17,12 @@ public class NewRouteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_route);
 
-        Button routeNameButton = findViewById(R.id.routeNameButton);
-        Button startDestinationButton = findViewById(R.id.startDestinationButton);
-        Button endDestinationButton = findViewById(R.id.endDestinationButton);
-        Button desiredLengthTimeButton = findViewById(R.id.desiredLengthTimeButton);
-        Button generateRoutesButton = findViewById(R.id.generateRoutesButton);
+        final Button routeNameButton = findViewById(R.id.routeNameButton);
+        final Button startDestinationButton = findViewById(R.id.startDestinationButton);
+        final Button endDestinationButton = findViewById(R.id.endDestinationButton);
+        final Button desiredLengthTimeButton = findViewById(R.id.desiredLengthTimeButton);
+        final Button generateRoutesButton = findViewById(R.id.generateRoutesButton);
+        final Button backButton = findViewById(R.id.newroute_back_button);
 
         routeNameButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +66,8 @@ public class NewRouteActivity extends AppCompatActivity {
                 switchToSettings();
             }
         });
+
+        backButton.setOnClickListener(view -> this.finish());
     }
 
     private void switchToSettings() {

@@ -52,6 +52,7 @@ public class LoginFragment extends Fragment {
         final EditText passwordEditText = v.findViewById(R.id.password);
         final Button loginButton = v.findViewById(R.id.login);
         final ProgressBar loadingProgressBar = v.findViewById(R.id.loading);;
+        final Button backButton = v.findViewById(R.id.login_back_button);
 
         loginViewModel.getLoginFormState().observe(getViewLifecycleOwner(), loginFormState -> {
             if (loginFormState == null) {
@@ -117,6 +118,8 @@ public class LoginFragment extends Fragment {
             switchToNewRoute();
 
         });
+
+        backButton.setOnClickListener(view -> getActivity().finish());
 
         return v;
     }

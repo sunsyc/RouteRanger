@@ -19,14 +19,18 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        final EditText usernameEditText = findViewById(R.id.nameInput);
-        final EditText passwordEditText = findViewById(R.id.passwordInput);
-        final EditText locationEditText = findViewById(R.id.locationInput);
+        EditText usernameEditText = findViewById(R.id.nameInput);
+        EditText passwordEditText = findViewById(R.id.passwordInput);
+        EditText locationEditText = findViewById(R.id.locationInput);
         final Button updateSettingsButton = findViewById(R.id.update_settings_button);
         final Button backButton = findViewById(R.id.settings_back_button);
 
         settingsViewModel = new ViewModelProvider(this, new ViewModelFactory(getApplicationContext()))
                 .get(SettingsViewModel.class);
+
+        if (!settingsViewModel.isUserLoggedIn()) {
+            this.finish();
+        }
 
         settingsViewModel.populateFields();
         usernameEditText.setText(settingsViewModel.initName);

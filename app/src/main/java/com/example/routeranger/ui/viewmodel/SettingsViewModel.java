@@ -32,6 +32,9 @@ public class SettingsViewModel extends ViewModel {
 
     private static final String TAG = "SettingsViewModel";
 
+    public boolean isUserLoggedIn() {
+        return db.loggedInUserId > 0;
+    }
     public void populateFields() {
         userDao = db.userDao();
 
