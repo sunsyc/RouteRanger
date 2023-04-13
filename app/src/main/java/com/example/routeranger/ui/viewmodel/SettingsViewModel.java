@@ -12,6 +12,7 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.List;
+import java.util.Objects;
 
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -25,8 +26,12 @@ public class SettingsViewModel extends ViewModel {
     private User user;
 
     private UserDao userDao;
+    private String initName, initPass, initLoc;
 
-    public String initName, initPass, initLoc;
+    public String getInitName() { return Objects.toString(initName, ""); }
+    public String getInitPass() { return Objects.toString(initPass, ""); }
+    public String getInitLoc() { return Objects.toString(initLoc, ""); }
+    public boolean isFound = false;
 
     SettingsViewModel(AppDatabase appDatabase) { this.db = appDatabase; }
 
@@ -48,6 +53,7 @@ public class SettingsViewModel extends ViewModel {
                         initName = user.mUsername;
                         initPass = user.mPassword;
                         initLoc = user.location;
+                        isFound = true;
                     }
 
                     @Override
@@ -80,4 +86,22 @@ public class SettingsViewModel extends ViewModel {
         );
     }
 
+    public void deleteUser() {
+        ListenableFuture<Integer> future = userDao.delete(user);
+        Futures.addCallback(
+                future,
+                new FutureCallback<Integer>() {
+                    @Override
+                    public void onSuccess(Integer result) {
+                        db.loggedInUserId = 0;
+                        Log.i(TAG, "User " + user.mUsername + " has been deleted!");
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+                        t.printStackTrace();
+                    }
+                }, db.dbWriteExecutor
+        );
+    }
 }

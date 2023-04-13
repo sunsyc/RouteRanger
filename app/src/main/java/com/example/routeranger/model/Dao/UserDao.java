@@ -40,7 +40,7 @@ public interface UserDao {
     ListenableFuture<Long> insert(User user);
 
     @Delete
-    void delete(User user);
+    ListenableFuture<Integer> delete(User user);
 
     @Transaction
     @Query("SELECT * FROM user")

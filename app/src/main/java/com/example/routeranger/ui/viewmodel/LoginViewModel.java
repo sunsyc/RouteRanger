@@ -63,7 +63,7 @@ public class LoginViewModel extends ViewModel {
                                     new FutureCallback<Long>() {
                                         @Override
                                         public void onSuccess(Long result) {
-                                            db.loggedInUserId = newUser.uid;
+                                            db.loggedInUserId = result.intValue();
                                             Log.i(TAG, "User " + newUser.mUsername + " is in the database!");
                                         }
 

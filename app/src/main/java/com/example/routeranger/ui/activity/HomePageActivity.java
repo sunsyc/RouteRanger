@@ -30,23 +30,23 @@ public class HomePageActivity extends AppCompatActivity {
         });
 
         // Find the create profile button in the layout
-        createProfileButton = findViewById(R.id.create_profile_button);
-        createProfileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Handle the create profile button click here
-            }
-        });
-
-        // Find the skip button in the layout
-        skipButton = findViewById(R.id.skip_button);
-        skipButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(HomePageActivity.this, NewRouteActivity.class);
-                startActivity(intent);
-            }
-        });
+//        createProfileButton = findViewById(R.id.create_profile_button);
+//        createProfileButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // Handle the create profile button click here
+//            }
+//        });
+//
+//        // Find the skip button in the layout
+//        skipButton = findViewById(R.id.skip_button);
+//        skipButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(HomePageActivity.this, NewRouteActivity.class);
+//                startActivity(intent);
+//            }
+//        });
     }
     private void switchToLogin() {
         Intent switchActivityIntent = new Intent(this, LoginActivity.class);
