@@ -1,6 +1,7 @@
 package com.example.routeranger.ui.viewmodel;
 
 import android.content.Context;
+import android.provider.Settings;
 
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
@@ -28,6 +29,8 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
             return (T) new LoginViewModel(AppDatabase.getInstance(mContext));
         } else if (modelClass.isAssignableFrom(SettingsViewModel.class)) {
             return (T) new SettingsViewModel(AppDatabase.getInstance(mContext));
+        } else if (modelClass.isAssignableFrom(NewRouteViewModel.class)) {
+            return (T) new NewRouteViewModel(AppDatabase.getInstance(mContext));
         }
         else {
             throw new IllegalArgumentException("Unknown ViewModel class");

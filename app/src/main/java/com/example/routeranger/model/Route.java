@@ -24,4 +24,7 @@ public class Route {
 
     @ColumnInfo(name = "duration")
     public String duration;
+
+    @ColumnInfo(name = "userId")
+    public int userId;
 }

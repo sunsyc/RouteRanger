@@ -1,22 +1,17 @@
 package com.example.routeranger.model.Dao;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
-import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
-import androidx.room.Transaction;
 import androidx.room.Update;
 
+import com.example.routeranger.model.Route;
 import com.example.routeranger.model.User;
-import com.example.routeranger.model.UserWithRoutes;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.List;
-
-import io.reactivex.rxjava3.core.Completable;
-import io.reactivex.rxjava3.core.Single;
+import java.util.Map;
 
 @Dao
 public interface UserDao {
@@ -42,7 +37,9 @@ public interface UserDao {
     @Delete
     ListenableFuture<Integer> delete(User user);
 
-    @Transaction
-    @Query("SELECT * FROM user")
-    public List<UserWithRoutes> getUsersWithRoutes();
+    @Query(
+            "SELECT * FROM user " +
+            "JOIN route ON user.userId = route.userId"
+    )
+    ListenableFuture<Map<User, List<Route>>> getUsersWithRoutes();
 }

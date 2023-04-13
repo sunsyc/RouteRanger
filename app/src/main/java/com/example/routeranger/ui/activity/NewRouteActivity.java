@@ -11,14 +11,17 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.routeranger.R;
+import com.example.routeranger.ui.viewmodel.NewRouteViewModel;
+import com.example.routeranger.ui.viewmodel.ViewModelFactory;
 
 public class NewRouteActivity extends AppCompatActivity {
 
     private Button settingsButton;
-    private String startDestination;
-    private String endDestination;
+    private NewRouteViewModel newRouteViewModel;
+    private String startDestination, routeName, endDestination;
 
 
     @Override
@@ -33,11 +36,16 @@ public class NewRouteActivity extends AppCompatActivity {
         final Button generateRoutesButton = findViewById(R.id.generateRoutesButton);
         final Button backButton = findViewById(R.id.newroute_back_button);
 
+        newRouteViewModel = new ViewModelProvider(this, new ViewModelFactory(getApplicationContext()))
+                .get(NewRouteViewModel.class);
 
         routeNameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle routeNameButton click here
+                showInputDialog("Enter Name of Route", (dialog, which) -> {
+                    routeName = ((EditText)((AlertDialog)dialog).findViewById(R.id.input_dialog_text))
+                            .getText().toString();
+                });
             }
         });
 
@@ -45,7 +53,8 @@ public class NewRouteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showInputDialog("Enter Start Destination", (dialog, which) -> {
-                    startDestination = ((EditText)((AlertDialog)dialog).findViewById(R.id.input_dialog_text)).getText().toString();
+                    startDestination = ((EditText)((AlertDialog)dialog).findViewById(R.id.input_dialog_text))
+                            .getText().toString();
                 });
             }
         });
@@ -54,7 +63,8 @@ public class NewRouteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showInputDialog("Enter End Destination", (dialog, which) -> {
-                    endDestination = ((EditText)((AlertDialog)dialog).findViewById(R.id.input_dialog_text)).getText().toString();
+                    endDestination = ((EditText)((AlertDialog)dialog).findViewById(R.id.input_dialog_text))
+                            .getText().toString();
                 });
             }
         });
@@ -75,9 +85,11 @@ public class NewRouteActivity extends AppCompatActivity {
                     Intent intent = new Intent(NewRouteActivity.this, MapActivity.class);
                     intent.putExtra("startDestination", startDestination);
                     intent.putExtra("endDestination", endDestination);
+                    newRouteViewModel.saveRoute(routeName, startDestination, endDestination);
                     startActivity(intent);
                 } else {
-                    Toast.makeText(NewRouteActivity.this, "Please enter both start and end destinations.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NewRouteActivity.this, "Please enter both start and end destinations.", Toast.LENGTH_SHORT)
+                            .show();
                 }
             }
         });

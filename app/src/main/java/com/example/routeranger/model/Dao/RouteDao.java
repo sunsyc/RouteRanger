@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 
 import com.example.routeranger.model.Route;
+import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ public interface RouteDao {
     Route findByName(String name);
 
     @Insert
-    void insertAll(Route... routes);
+    ListenableFuture<Long> insert(Route route);
 
     @Delete
     void delete(Route route);
