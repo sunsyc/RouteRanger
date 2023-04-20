@@ -84,49 +84,6 @@ public class LoginViewModel extends ViewModel {
         );
         loginResult.setValue(new LoginResult(new LoggedInUserView(username + password)));
     }
-
-
-//        Disposable d = userDao.findByCredentials(username, password)
-//                .subscribeWith(new DisposableSingleObserver<User>() {
-//
-//           @Override
-//           public void onError(Throwable e) {
-//               e.printStackTrace();
-//           }
-//
-//           @Override
-//           public void onSuccess(User user) {
-//               if (user == null) {
-//                   User newUser = new User(username, password);
-//                   Disposable d1 = userDao.insertAll(newUser)
-//                           .subscribeWith(new DisposableCompletableObserver() {
-//
-//                       @Override
-//                       public void onError(Throwable e) {
-//                           e.printStackTrace();
-//                       }
-//
-//                       @Override
-//                       public void onStart() {
-//                            Log.i(TAG, "User " + newUser.mUsername + " is being created...");
-//                       }
-//
-//                       @Override
-//                       public void onComplete() {
-//                            db.loggedInUserId = newUser.uid;
-//                            Log.i(TAG, "User " + newUser.mUsername + " is logged in!");
-//                       }
-//                   });
-//               } else {
-//                   Log.i(TAG, "User " + user.mUsername + " already exists!");
-//                   db.loggedInUserId = user.uid;
-//                   Log.i(TAG, "User " + user.mUsername + " is logged in!");
-//               }
-//           }
-//        });
-//    }
-
-
         public void loginDataChanged(String username, String password) {
         if (!isUserNameValid(username)) {
             loginFormState.setValue(new LoginFormState(R.string.invalid_username, null));

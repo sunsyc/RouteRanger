@@ -10,8 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.routeranger.R;
+import com.example.routeranger.model.User;
 import com.example.routeranger.ui.viewmodel.SettingsViewModel;
 import com.example.routeranger.ui.viewmodel.ViewModelFactory;
+import com.google.common.util.concurrent.ListenableFuture;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -36,7 +38,7 @@ public class SettingsActivity extends AppCompatActivity {
             this.finish();
         }
 
-        settingsViewModel.populateFields();
+        settingsViewModel.populateFields(usernameEditText, passwordEditText, locationEditText);
 
         updateSettingsButton.setOnClickListener(view -> {
             settingsViewModel.updateSettings(
@@ -53,13 +55,6 @@ public class SettingsActivity extends AppCompatActivity {
             settingsViewModel.deleteUser();
             switchToHome();
         });
-
-        while (!settingsViewModel.isFound) {
-            Log.i(TAG, "Waiting for user info...");
-        }
-        passwordEditText.setText(settingsViewModel.getInitPass());
-        usernameEditText.setText(settingsViewModel.getInitName());
-        locationEditText.setText(settingsViewModel.getInitLoc());
     }
 
     private void switchToHome() {

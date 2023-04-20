@@ -1,6 +1,7 @@
 package com.example.routeranger.ui.viewmodel;
 
 import android.util.Log;
+import android.widget.EditText;
 
 import androidx.lifecycle.ViewModel;
 
@@ -26,12 +27,6 @@ public class SettingsViewModel extends ViewModel {
     private User user;
 
     private UserDao userDao;
-    private String initName, initPass, initLoc;
-
-    public String getInitName() { return Objects.toString(initName, ""); }
-    public String getInitPass() { return Objects.toString(initPass, ""); }
-    public String getInitLoc() { return Objects.toString(initLoc, ""); }
-    public boolean isFound = false;
 
     SettingsViewModel(AppDatabase appDatabase) { this.db = appDatabase; }
 
@@ -40,7 +35,7 @@ public class SettingsViewModel extends ViewModel {
     public boolean isUserLoggedIn() {
         return db.loggedInUserId > 0;
     }
-    public void populateFields() {
+    public void populateFields(EditText usernameEditText, EditText passwordEditText, EditText locationEditText) {
         userDao = db.userDao();
 
         ListenableFuture<User> future = userDao.findById(db.loggedInUserId);
@@ -50,10 +45,9 @@ public class SettingsViewModel extends ViewModel {
                     @Override
                     public void onSuccess(User result) {
                         user = result;
-                        initName = user.mUsername;
-                        initPass = user.mPassword;
-                        initLoc = user.location;
-                        isFound = true;
+                        usernameEditText.setText(user.mUsername);
+                        passwordEditText.setText(user.mPassword);
+                        locationEditText.setText(user.location);
                     }
 
                     @Override
