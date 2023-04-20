@@ -22,13 +22,11 @@ public class NewRouteActivityTest {
     @Test
     public void testButtonsAreDisplayed() {
         // Check if buttons are displayed on the screen
-        Espresso.onView(ViewMatchers.withId(R.id.routeNameButton))
+        Espresso.onView(ViewMatchers.withId(R.id.routeNameET))
                 .check(matches(ViewMatchers.isDisplayed()));
-        Espresso.onView(ViewMatchers.withId(R.id.startDestinationButton))
+        Espresso.onView(ViewMatchers.withId(R.id.startDestET))
                 .check(matches(ViewMatchers.isDisplayed()));
-        Espresso.onView(ViewMatchers.withId(R.id.endDestinationButton))
-                .check(matches(ViewMatchers.isDisplayed()));
-        Espresso.onView(ViewMatchers.withId(R.id.desiredLengthTimeButton))
+        Espresso.onView(ViewMatchers.withId(R.id.endDestET))
                 .check(matches(ViewMatchers.isDisplayed()));
         Espresso.onView(ViewMatchers.withId(R.id.generateRoutesButton))
                 .check(matches(ViewMatchers.isDisplayed()));
